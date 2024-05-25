@@ -1,0 +1,9 @@
+{
+	"name": "ProductionScrapForIR3",
+	"version": "1.0.0",
+	"title": "Production Scrap for Industrial Revolution 3",
+	"author": "StephenB",
+	"factorio_version": "1.1",
+	"dependencies": ["base >= 1.1", "IndustrialRevolution3 >= 3.1.23"],
+	"description": "Modifies IR3's recipes to produce scrap byproducts. Optionally adds a new scrap processing recipe for extra logistical challenges. Configurable."
+}
