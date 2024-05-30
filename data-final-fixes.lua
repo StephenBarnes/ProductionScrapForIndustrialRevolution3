@@ -1,17 +1,18 @@
 local scrapAmt = settings.startup["ProductionScrapForIR3-scrap-per-ingredient"].value
 local addPelletRecipes = settings.startup["ProductionScrapForIR3-add-pellet-recipes"].value
 local pelletsFromScrap = settings.startup["ProductionScrapForIR3-pellets-from-scrap"].value
+-- TODO: Maybe add an option to have gears make scrap, and then remove the requirement that recipes have >1 ingredient to produce scrap. Well, first try playing a long game with this, and then decide.
 
 ------------------------------------------------------------------------
 --- BASIC FUNCTIONS
 
-function extend(t1, t2)
+local function extend(t1, t2)
 	for i = 1, #t2 do
 		t1[#t1 + 1] = t2[i]
 	end
 end
 
-function increaseKey(t, k, v)
+local function increaseKey(t, k, v)
 	if t[k] == nil then
 		t[k] = v
 	else
@@ -19,7 +20,7 @@ function increaseKey(t, k, v)
 	end
 end
 
-function listToSet(l)
+local function listToSet(l)
 	-- Convert {a, b, c} to {a=true, b=true, c=true} so that we can check membership faster.
 	local result = {}
 	for _,v in ipairs(l) do
@@ -40,7 +41,7 @@ local regularItemsToMultiplier = {ingot=1, plate=1, rod=2, foil=2, cable=2}
 	-- Not all of these exist, eg there's no tin-foil or gold-rod. So below, we check what exists.
 	-- Note the 2's here to halve the scrap for that item, bc 1 ingot makes 2 rods or 2 foils.
 	-- Note I'm including cables (copper, tin, gold) even though those recipes aren't very simple, because they're still strictly more expensive.
-local scrapProducingItems = { -- maps ingredient item to {scrap item}
+local scrapProducingItems = { -- maps ingredient item to {scrap item name, num producible from 1 "ingot"}
 	-- Some irregular scrap.
 	["glass"] = {"glass-scrap", 1},
 	["wood-beam"] = {"wood-chips", 1}, -- 1 wood = 2 wood beams = 2 wood chips.
@@ -62,7 +63,7 @@ end
 --- MODIFY RECIPES TO PRODUCE SCRAP
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
--- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those.
+-- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
 local excludeRecipeCategories = listToSet{"alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
 local excludeRecipeSubgroups = listToSet{"plate-heavy", "beam", "rod", "ir-trees", "analysis"}
 local excludeRecipeNames = listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete"}
@@ -144,7 +145,7 @@ function modifyRecipeSimple(recipe)
 end
 
 if scrapAmt > 0 then
-	for name, recipe in pairs(data.raw.recipe) do
+	for _, recipe in pairs(data.raw.recipe) do
 		modifyRecipe(recipe)
 	end
 end
@@ -154,7 +155,7 @@ end
 
 function doesTechUnlockRecipe(tech, recipeName)
 	if not tech.effects then return false end
-	for _,effect in pairs(tech.effects) do
+	for _, effect in pairs(tech.effects) do
 		if effect.type == "unlock-recipe" and effect.recipe == recipeName then return true end
 	end
 	return false
@@ -184,7 +185,7 @@ if addPelletRecipes then
 				ingredients = {{material.."-scrap", 1}},
 				show_amount_in_title = false,
 				always_show_products = true,
-				energy_required = DIR.standard_crafting_time, -- Uses constant from IR3's DIR
+				energy_required = DIR.standard_crafting_time, -- Uses constant from IR3's DIR.
 				localised_name = {"recipe-name.pellets-from-scrap", {"item-name."..material.."-pellet"}},
 				icons = {
 					{icon = DIR.get_icon_path(pelletItem), icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps},
