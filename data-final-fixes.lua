@@ -197,7 +197,7 @@ if addPelletRecipes then
 			-- Add properties from the other pellet recipe.
 			local originalPelletRecipe = data.raw.recipe[pelletItem]
 			if originalPelletRecipe then
-				newRecipe.crafting_machine_tints = table.deepcopy(originalPelletRecipe.crafting_machine_tints)
+				newRecipe.crafting_machine_tint = table.deepcopy(originalPelletRecipe.crafting_machine_tint)
 				newRecipe.enabled = originalPelletRecipe.enabled -- FIXME Might break if that recipe has normal/expensive.
 				for _,tech in pairs(data.raw.technology) do
 					-- FIXME Might break if technology has normal/expensive separate.
