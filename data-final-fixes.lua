@@ -64,7 +64,7 @@ end
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
 -- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
-local excludeRecipeCategories = listToSet{"alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
+local excludeRecipeCategories = listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
 local excludeRecipeSubgroups = listToSet{"plate-heavy", "beam", "rod", "ir-trees", "analysis"}
 local excludeRecipeNames = listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete"}
 
