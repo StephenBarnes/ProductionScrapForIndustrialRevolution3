@@ -30,13 +30,13 @@ for material, scrapItem in pairs(regularMaterialsToScrap) do
 end
 -- Add some irregular scrap.
 for k, v in pairs({
-	["glass"] = {["glass-scrap"] = 1},
+	["glass"] = {["glass-scrap"] = 2}, -- You can smelt 1x glass fragments to 2x glass, so we halve the scrap.
 	["wood-beam"] = {["wood-chips"] = 1}, -- 1 wood = 2 wood beams = 2 wood chips.
 	["wood"] = {["wood-chips"] = 2},
 	["iron-stick"] = {["iron-scrap"] = 2}, -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
 	["tin-cable"] = { -- overwrite to make both tin and copper scrap
-		["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] / 2,
-		["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] / 2,
+		["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
+		["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
 	},
 	["gold-cable"] = { -- overwrite to make copper scrap only
 		["copper-scrap"] = scrapProducingItems["gold-cable"]["gold-scrap"],
@@ -51,15 +51,32 @@ end
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
 -- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
-local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
-local excludeRecipeSubgroups = common.listToSet{"plate-heavy", "beam", "rod", "ir-trees"}
-local excludeRecipeNames = common.listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete", "copper-cable-heavy", "tin-cable"}
+local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating", "melting"}
+local excludeRecipeSubgroups = common.listToSet{
+	"plate", "rod", -- These produce scrap as ingredients, so shouldn't also produce scrap when created.
+	"cable", -- Includes foils. These produce scrap as ingredients, so shouldn't also produce scrap when created.
+	"ir-trees",
+	"rivet", "plate-heavy", "beam", "pellet", -- These are made from rods/plates/ingots/wood, which would all ordinarily produce scrap. But I just don't like making their recipes produce scrap because it seems unrealistic. These also don't produce scrap as ingredients. So this makes recipes that use these items as ingredients a bit more expensive relative to other recipes, since you don't get scrap from your raw materials. But it's like a 5% difference so it won't seriously unbalance IR3.
+}
+local excludeRecipeNames = common.listToSet{
+	-- Chemistry
+	"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete", "charcoal-from-ore",
+	-- Coating cables shouldn't produce scrap, because we're making them produce scrap when they're ingredients, plus it doesn't make sense.
+	"copper-cable-heavy", "tin-cable", "red-wire", "green-wire",
+	-- Remove electric pole scrap, because it makes sense for it to take 1 beam and not produce wood chips / scrap.
+	"small-electric-pole", "medium-electric-pole", "big-electric-pole", "small-bronze-pole", "small-iron-pole", "big-wooden-pole",
+	"rail", -- No scrap from rail because it doesn't make sense.
+	"wood-chips", -- Crushing wood to produce wood chips shouldn't also produce extra wood chip scrap.
+	"low-density-structure", -- IR3 uses this ID for steel foam.
+}
 if not settings.startup["ProductionScrapForIR3-science-produces-scrap"].value then
 	excludeRecipeSubgroups["analysis"] = true
 end
+if not settings.startup["ProductionScrapForIR3-gears-produce-scrap"].value then
+	excludeRecipeSubgroups["gear-wheel"] = true
+end
 
 function shouldModifyRecipe(recipe)
-	if (not recipe.ingredients) or (#recipe.ingredients <= 1) then return false end -- Recipe must have 2+ ingredients.
 	if (not recipe.result) -- Recipe must have at least 1 product
 		and ((not recipe.results) or (#recipe.results == 0))
 		and (not recipe.normal) then

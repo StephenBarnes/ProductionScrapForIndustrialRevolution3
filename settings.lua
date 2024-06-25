@@ -3,7 +3,7 @@ data:extend({
         type = "double-setting",
         name = "ProductionScrapForIR3-scrap-per-ingredient",
         setting_type = "startup",
-        default_value = 0.1,
+        default_value = 0.05,
         minimum_value = 0.0,
         order = "1",
     },
