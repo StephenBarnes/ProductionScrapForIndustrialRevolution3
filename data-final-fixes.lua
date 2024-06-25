@@ -32,6 +32,7 @@ end
 ------------------------------------------------------------------------
 --- SET UP TABLE OF SCRAP-PRODUCING INGREDIENTS
 
+-- TODO move out to a separate file of constants.
 local regularMaterialsToScrap = {
 	copper="copper-scrap", tin="tin-scrap", bronze="bronze-scrap", iron="iron-scrap", steel="steel-scrap",
 	gold="gold-scrap", lead="lead-scrap", brass="brass-scrap",
