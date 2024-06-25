@@ -6,7 +6,7 @@ Date: 25. 06. 2024
     - TODO Reduced scrap per ingot by TODO% for recipes that can use productivity modules.
     - Added settings for science packs and gears to produce scrap.
     - Added setting for scrap stack sizes.
-    - Tweaks to scrap production of several recipes.
+    - Tweaks to scrap production of many recipes.
   Bugfixes:
     - Corrected ratio of glass fragments to glass.
 ---------------------------------------------------------------------------------------------------

@@ -35,12 +35,16 @@ for k, v in pairs({
 	["wood"] = {["wood-chips"] = 2},
 	["iron-stick"] = {["iron-scrap"] = 2}, -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
 	["tin-cable"] = { -- overwrite to make both tin and copper scrap
-		["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
-		["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
+		--["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
+		--["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
+		-- on second thought, don't produce scrap from any cables.
 	},
-	["gold-cable"] = { -- overwrite to make copper scrap only
-		["copper-scrap"] = scrapProducingItems["gold-cable"]["gold-scrap"],
+	["gold-cable"] = {
+		-- overwrite to make copper scrap only
+		--["copper-scrap"] = scrapProducingItems["gold-cable"]["gold-scrap"],
+		-- on second thought, don't produce scrap from gold-cable.
 	},
+	["copper-cable"] = {},
 	-- Not adding anything for stone or concrete-block, bc I don't think that makes sense with the recipes we have.
 }) do
 	scrapProducingItems[k] = v
@@ -51,7 +55,7 @@ end
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
 -- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
-local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating", "melting"}
+local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating", "melting", "stacking"}
 local excludeRecipeSubgroups = common.listToSet{
 	"plate", "rod", -- These produce scrap as ingredients, so shouldn't also produce scrap when created.
 	"cable", -- Includes foils. These produce scrap as ingredients, so shouldn't also produce scrap when created.
@@ -68,6 +72,21 @@ local excludeRecipeNames = common.listToSet{
 	"rail", -- No scrap from rail because it doesn't make sense.
 	"wood-chips", -- Crushing wood to produce wood chips shouldn't also produce extra wood chip scrap.
 	"low-density-structure", -- IR3 uses this ID for steel foam.
+
+	-- Exclude stuff you'll only craft manually, no need to inconvenience the player for these.
+	"light-armor", "heavy-armor", "modular-armor", "power-armor", "power-armor-mk2",
+	"iron-burner-generator-equipment", "battery-discharge-equipment", "solar-panel-equipment", "fusion-reactor-equipment",
+	"battery-equipment", "battery-mk2-equipment",
+	"copper-roboport-equipment", "personal-roboport-equipment", "personal-roboport-mk2-equipment",
+	"night-vision-equipment", "belt-immunity-equipment", "exoskeleton-equipment", "personal-laser-defense-equipment",
+	"energy-shield-equipment", "energy-shield-mk2-equipment", "discharge-defense-equipment", "discharge-defense-remote",
+	"arc-turret-equipment", "personal-laser-defense-equipment",
+	"shotgun", "combat-shotgun", "rocket-launcher", "flamethrower",
+	-- "submachine-gun", "machine-gun", "gun", "pistol", -- These don't work and I don't know why. Recipe still produces scrap.
+	"monowheel", "heavy-roller", "heavy-picket", "hydrogen-airship", "helium-airship", "spidertron", "spidertron-remote",
+	"car", "tank",
+	"transfer-plate", "transfer-plate-2x2",
+	"chrome-transmat", "cargo-transmat",
 }
 if not settings.startup["ProductionScrapForIR3-science-produces-scrap"].value then
 	excludeRecipeSubgroups["analysis"] = true
