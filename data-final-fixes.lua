@@ -18,22 +18,32 @@ local regularItemsToMultiplier = {ingot=1, plate=1, rod=2, foil=2, cable=2}
 	-- Not all of these exist, eg there's no tin-foil or gold-rod. So below, we check what exists.
 	-- Note the 2's here to halve the scrap for that item, bc 1 ingot makes 2 rods or 2 foils.
 	-- Note I'm including cables (copper, tin, gold) even though those recipes aren't very simple, because they're still strictly more expensive.
-local scrapProducingItems = { -- maps ingredient item to {scrap item name, num producible from 1 "ingot"}
-	-- Some irregular scrap.
-	["glass"] = {"glass-scrap", 1},
-	["wood-beam"] = {"wood-chips", 1}, -- 1 wood = 2 wood beams = 2 wood chips.
-	["wood"] = {"wood-chips", 2},
-	["iron-stick"] = {"iron-scrap", 2}, -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
-	-- Not adding anything for stone or concrete-block, bc I don't think that makes sense with the recipes we have.
-}
+local scrapProducingItems = {} -- maps ingredient item to a table of [scrap item name] => [num producible from 1 "ingot"]
 -- Add regular scrap.
 for material, scrapItem in pairs(regularMaterialsToScrap) do
 	for item, multiplier in pairs(regularItemsToMultiplier) do
 		local materialItem = material .. "-" .. item
 		if data.raw.item[materialItem] ~= nil then
-			scrapProducingItems[materialItem] = {scrapItem, multiplier}
+			scrapProducingItems[materialItem] = { [scrapItem] = multiplier }
 		end
 	end
+end
+-- Add some irregular scrap.
+for k, v in pairs({
+	["glass"] = {["glass-scrap"] = 1},
+	["wood-beam"] = {["wood-chips"] = 1}, -- 1 wood = 2 wood beams = 2 wood chips.
+	["wood"] = {["wood-chips"] = 2},
+	["iron-stick"] = {["iron-scrap"] = 2}, -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
+	["tin-cable"] = { -- overwrite to make both tin and copper scrap
+		["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] / 2,
+		["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] / 2,
+	},
+	["gold-cable"] = { -- overwrite to make copper scrap only
+		["copper-scrap"] = scrapProducingItems["gold-cable"]["gold-scrap"],
+	},
+	-- Not adding anything for stone or concrete-block, bc I don't think that makes sense with the recipes we have.
+}) do
+	scrapProducingItems[k] = v
 end
 
 ------------------------------------------------------------------------
@@ -42,8 +52,11 @@ end
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
 -- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
 local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
-local excludeRecipeSubgroups = common.listToSet{"plate-heavy", "beam", "rod", "ir-trees", "analysis"}
-local excludeRecipeNames = common.listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete"}
+local excludeRecipeSubgroups = common.listToSet{"plate-heavy", "beam", "rod", "ir-trees"}
+local excludeRecipeNames = common.listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete", "copper-cable-heavy", "tin-cable"}
+if not settings.startup["ProductionScrapForIR3-science-produces-scrap"].value then
+	excludeRecipeSubgroups["analysis"] = true
+end
 
 function shouldModifyRecipe(recipe)
 	if (not recipe.ingredients) or (#recipe.ingredients <= 1) then return false end -- Recipe must have 2+ ingredients.
@@ -66,10 +79,10 @@ function figureOutScrapResults(ingredients)
 		local amount = v[2] or v.amount
 		local scrapForItem = scrapProducingItems[item]
 		if scrapForItem ~= nil then
-			local scrapItem = scrapForItem[1]
-			local multiplier = scrapForItem[2]
-			common.increaseKey(scrapProduced, scrapForItem[1], scrapAmt * amount / multiplier)
-			-- NOTE this calculation could use IR3's DIR.scrap_divider, though not sure which side of 1 that's on.
+			for scrapItem, multiplier in pairs(scrapForItem) do
+				common.increaseKey(scrapProduced, scrapItem, scrapAmt * amount / multiplier)
+				-- NOTE this calculation could use IR3's DIR.scrap_divider, though not sure which side of 1 that's on.
+			end
 		end
 	end
 	-- Now it's in a format like {["iron-scrap"] = 1}; we want this in format like {{name = "iron-scrap", amount=1, type="item"}}
