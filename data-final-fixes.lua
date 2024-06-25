@@ -1,38 +1,14 @@
+local common = require("common")
+
 local scrapAmt = settings.startup["ProductionScrapForIR3-scrap-per-ingredient"].value
 local addPelletRecipes = settings.startup["ProductionScrapForIR3-scrap-processing-recipe"].value == "pellets" -- TODO handle the other possible values.
 local pelletsFromScrap = settings.startup["ProductionScrapForIR3-pellets-from-scrap"].value
 -- TODO: Maybe add an option to have gears make scrap, and then remove the requirement that recipes have >1 ingredient to produce scrap. Well, first try playing a long game with this, and then decide.
 
 ------------------------------------------------------------------------
---- BASIC FUNCTIONS
-
-local function extend(t1, t2)
-	for i = 1, #t2 do
-		t1[#t1 + 1] = t2[i]
-	end
-end
-
-local function increaseKey(t, k, v)
-	if t[k] == nil then
-		t[k] = v
-	else
-		t[k] = t[k] + v
-	end
-end
-
-local function listToSet(l)
-	-- Convert {a, b, c} to {a=true, b=true, c=true} so that we can check membership faster.
-	local result = {}
-	for _,v in ipairs(l) do
-		result[v] = true
-	end
-	return result
-end
-
-------------------------------------------------------------------------
 --- SET UP TABLE OF SCRAP-PRODUCING INGREDIENTS
+-- TODO maybe move this to common.lua.
 
--- TODO move out to a separate file of constants.
 local regularMaterialsToScrap = {
 	copper="copper-scrap", tin="tin-scrap", bronze="bronze-scrap", iron="iron-scrap", steel="steel-scrap",
 	gold="gold-scrap", lead="lead-scrap", brass="brass-scrap",
@@ -65,9 +41,9 @@ end
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
 -- For science packs (subgroup "analysis"), the recipes allow productivity modules, so disabling scrap for those to prevent scrap-and-remake shenanigans.
-local excludeRecipeCategories = listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
-local excludeRecipeSubgroups = listToSet{"plate-heavy", "beam", "rod", "ir-trees", "analysis"}
-local excludeRecipeNames = listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete"}
+local excludeRecipeCategories = common.listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating"}
+local excludeRecipeSubgroups = common.listToSet{"plate-heavy", "beam", "rod", "ir-trees", "analysis"}
+local excludeRecipeNames = common.listToSet{"chromium-plating-solution", "gold-plating-solution", "refined-concrete", "concrete"}
 
 function shouldModifyRecipe(recipe)
 	if (not recipe.ingredients) or (#recipe.ingredients <= 1) then return false end -- Recipe must have 2+ ingredients.
@@ -92,7 +68,7 @@ function figureOutScrapResults(ingredients)
 		if scrapForItem ~= nil then
 			local scrapItem = scrapForItem[1]
 			local multiplier = scrapForItem[2]
-			increaseKey(scrapProduced, scrapForItem[1], scrapAmt * amount / multiplier)
+			common.increaseKey(scrapProduced, scrapForItem[1], scrapAmt * amount / multiplier)
 			-- NOTE this calculation could use IR3's DIR.scrap_divider, though not sure which side of 1 that's on.
 		end
 	end
@@ -142,7 +118,7 @@ function modifyRecipeSimple(recipe)
 			recipe.main_product = recipe.results[1].name
 		end
 	end
-	extend(recipe.results, scrapResults)
+	common.extend(recipe.results, scrapResults)
 end
 
 if scrapAmt > 0 then
@@ -219,3 +195,4 @@ if addPelletRecipes then
 	end
 	data:extend(newData)
 end
+--- BASIC FUNCTIONS
