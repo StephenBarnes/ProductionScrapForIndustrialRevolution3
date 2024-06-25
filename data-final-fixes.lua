@@ -1,5 +1,5 @@
 local scrapAmt = settings.startup["ProductionScrapForIR3-scrap-per-ingredient"].value
-local addPelletRecipes = settings.startup["ProductionScrapForIR3-add-pellet-recipes"].value
+local addPelletRecipes = settings.startup["ProductionScrapForIR3-scrap-processing-recipe"].value == "pellets" -- TODO handle the other possible values.
 local pelletsFromScrap = settings.startup["ProductionScrapForIR3-pellets-from-scrap"].value
 -- TODO: Maybe add an option to have gears make scrap, and then remove the requirement that recipes have >1 ingredient to produce scrap. Well, first try playing a long game with this, and then decide.
 
