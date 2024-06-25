@@ -15,11 +15,18 @@ data:extend({
         order = "2",
     },
     {
+        type = "bool-setting",
+        name = "ProductionScrapForIR3-gears-produce-scrap",
+        setting_type = "startup",
+        default_value = true,
+        order = "3",
+    },
+    {
         type = "int-setting",
         name = "ProductionScrapForIR3-scrap-stack-size",
         setting_type = "startup",
-        default_value = 99, -- TODO check what the default is in IR3, and decide what to change the default to.
-        order = "3",
+        default_value = 100,
+        order = "4",
     },
     {
         type = "string-setting",
@@ -31,7 +38,7 @@ data:extend({
             "pellets-and-rivets",
         },
         default_value = "pellets-and-rivets",
-        order = "4",
+        order = "5",
     },
     {
         type = "double-setting",
@@ -39,7 +46,7 @@ data:extend({
         setting_type = "startup",
         default_value = 2,
         minimum_value = 0,
-        order = "5",
+        order = "6",
     },
     {
         type = "double-setting",
@@ -47,6 +54,6 @@ data:extend({
         setting_type = "startup",
         default_value = 1.5,
         minimum_value = 0,
-        order = "6",
+        order = "7",
     },
 })

@@ -3,8 +3,8 @@ Version: 1.1.0
 Date: 25. 06. 2024
   Features:
     - TODO add setting for scrap to rivets+pellets.
-    - TODO add setting for science packs to produce scrap.
-    - TODO add setting for gears to produce scrap.
+    - TODO add settings for science packs and gears to produce scrap.
+    - TODO reduce scrap per ingot by TODO% for recipes that can use productivity modules.
     - TODO add setting for scrap stack sizes.
     - TODO make one-ingredient recipes produce scrap, eg chests.
 ---------------------------------------------------------------------------------------------------
