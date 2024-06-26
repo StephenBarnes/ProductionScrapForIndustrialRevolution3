@@ -26,7 +26,6 @@ function figureOutScrapResults(ingredients)
 		if scrapForItem ~= nil then
 			for scrapItem, multiplier in pairs(scrapForItem) do
 				utils.increaseKey(scrapProduced, scrapItem, scrapAmt * amount * multiplier)
-				-- NOTE this calculation could use IR3's DIR.scrap_divider, though not sure which side of 1 that's on.
 			end
 		end
 	end
