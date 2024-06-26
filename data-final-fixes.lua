@@ -1,4 +1,4 @@
-local common = require("common")
+local common = require("code.utils")
 
 local scrapAmt = settings.startup["ProductionScrapForIR3-scrap-per-ingredient"].value
 local addPelletRecipes = settings.startup["ProductionScrapForIR3-scrap-processing-recipe"].value == "pellets" -- TODO handle the other possible values.

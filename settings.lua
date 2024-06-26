@@ -35,10 +35,10 @@ data:extend({
         order = nextOrder(),
     },
     {
-        type = "int-setting",
-        name = "ProductionScrapForIR3-scrap-stack-size",
+        type = "double-setting",
+        name = "ProductionScrapForIR3-scrap-stack-multiplier",
         setting_type = "startup",
-        default_value = 100,
+        default_value = 1,
         order = nextOrder(),
     },
     {
