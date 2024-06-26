@@ -8,9 +8,6 @@ Date: 25. 06. 2024
     - Added setting to adjust scrap stack sizes.
     - Added setting to exclude mostly-manual recipes where scrap would be annoying.
     - Tweaks to scrap production of many recipes.
-    - TODO Added setting to enable smelting of pellets to ingots.
-    - TODO Added setting to adjust scrap-to-ingot smelting recipe.
-    - TODO Added concrete scrap byproduct to some recipes.
   Bugfixes:
     - Corrected amount of glass fragments produced per glass ingredient.
 ---------------------------------------------------------------------------------------------------
