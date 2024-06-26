@@ -7,8 +7,12 @@ Date: 25. 06. 2024
     - Added settings for science packs and gears to produce scrap.
     - Added setting for scrap stack sizes.
     - Tweaks to scrap production of many recipes.
+    - TODO Added setting to exclude mostly-manual recipes where scrap would be annoying.
+    - TODO Added setting to disable scrapping of pellets
+    - TODO Added setting to enable smelting of pellets
+    - TODO Added setting to adjust scrap-to-ingot smelting recipe.
   Bugfixes:
-    - Corrected ratio of glass fragments to glass.
+    - Corrected amount of glass fragments produced per glass ingredient.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 24. 06. 2024
