@@ -16,7 +16,7 @@ local regularMaterialsToScrap = {
 }
 local regularItemsToMultiplier = {ingot=1, plate=1, rod=2, foil=2, cable=2}
 	-- Not all of these exist, eg there's no tin-foil or gold-rod. So below, we check what exists.
-	-- Note the 2's here to halve the scrap for that item, bc 1 ingot makes 2 rods or 2 foils.
+	-- Note the 2's here to halve the scrap for that item, bc 1 ingot makes 2 rods or 2 foils or 2 cables.
 	-- Note I'm including cables (copper, tin, gold) even though those recipes aren't very simple, because they're still strictly more expensive.
 local scrapProducingItems = {} -- maps ingredient item to a table of [scrap item name] => [num producible from 1 "ingot"]
 -- Add regular scrap.
@@ -35,16 +35,17 @@ for k, v in pairs({
 	["wood"] = {["wood-chips"] = 2},
 	["iron-stick"] = {["iron-scrap"] = 2}, -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
 	["tin-cable"] = { -- overwrite to make both tin and copper scrap
-		--["tin-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
-		--["copper-scrap"] = scrapProducingItems["tin-cable"]["tin-scrap"] * 2,
-		-- on second thought, don't produce scrap from any cables.
+		-- Base IR3 has 2 tin cable <== 2 copper cable + 1 tin ingot <== 1 copper ingot + 1 tin ingot.
+		["tin-scrap"] = 2,
+		["copper-scrap"] = 2,
 	},
 	["gold-cable"] = {
-		-- overwrite to make copper scrap only
-		--["copper-scrap"] = scrapProducingItems["gold-cable"]["gold-scrap"],
-		-- on second thought, don't produce scrap from gold-cable.
+		-- Base IR3 has 2 gold cable <== 2 copper cable + 10 gold-plating solution.
+		-- Base IR3 also has 40 gold-plating solution <== 4 gold ingots + water + sulfuric acid.
+		-- So in base IR3, 1 gold cable needs 1 copper cable + 5 gold-plating solution, which is 0.5 of each ingot.
+		["copper-scrap"] = 2,
+		["gold-scrap"] = 2,
 	},
-	["copper-cable"] = {},
 	-- Not adding anything for stone or concrete-block, bc I don't think that makes sense with the recipes we have.
 }) do
 	scrapProducingItems[k] = v
