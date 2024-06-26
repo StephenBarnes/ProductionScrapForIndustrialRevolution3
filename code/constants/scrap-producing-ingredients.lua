@@ -32,5 +32,12 @@ scrapProducingIngredients["tin-cable"] = { -- overwrite to make both tin and cop
 	["tin-scrap"] = 0.5,
 	["copper-scrap"] = 0.5,
 }
+scrapProducingIngredients["gold-cable"] = {
+	-- Base IR3 has 2 gold cable <== 2 copper cable + 10 gold-plating solution.
+	-- Base IR3 also has 40 gold-plating solution <== 4 gold ingots + water + sulfuric acid.
+	-- So in base IR3, 1 gold cable needs 1 copper cable + 5 gold-plating solution, which is 0.5 of each ingot.
+	["copper-scrap"] = 0.5,
+	["gold-scrap"] = 0.5,
+}
 
 return scrapProducingIngredients
