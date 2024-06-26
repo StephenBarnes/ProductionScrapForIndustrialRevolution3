@@ -18,7 +18,11 @@ function getOutputFractional(item, amount)
 	if 0 < amount and amount < 1 then
 		return {name=item, probability=amount, amount=1, type="item"}
 	elseif amount ~= math.floor(amount) then
-		return {name=item, type="item", amount_min=0, amount_max=math.floor(2 * amount)}
+		if amount - math.floor(amount) == 0.5 then
+			return {name=item, type="item", amount_min=math.floor(amount), amount_max=math.ceil(amount)}
+		else
+			return {name=item, type="item", amount_min=0, amount_max=math.floor(2 * amount)}
+		end
 	else
 		return {name=item, amount=amount, type="item"}
 	end

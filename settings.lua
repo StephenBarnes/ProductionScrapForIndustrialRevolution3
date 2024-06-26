@@ -58,7 +58,7 @@ data:extend({
         type = "double-setting",
         name = "ProductionScrapForIR3-pellets-from-scrap-without-rivets",
         setting_type = "startup",
-        default_value = 5,
+        default_value = 4.5,
         minimum_value = 0,
         order = nextOrder(),
     },
