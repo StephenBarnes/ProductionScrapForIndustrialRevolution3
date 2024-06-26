@@ -72,22 +72,29 @@ local excludeRecipeNames = common.listToSet{
 	"rail", -- No scrap from rail because it doesn't make sense.
 	"wood-chips", -- Crushing wood to produce wood chips shouldn't also produce extra wood chip scrap.
 	"low-density-structure", -- IR3 uses this ID for steel foam.
-
-	-- Exclude stuff you'll only craft manually, no need to inconvenience the player for these.
-	"light-armor", "heavy-armor", "modular-armor", "power-armor", "power-armor-mk2",
-	"iron-burner-generator-equipment", "battery-discharge-equipment", "solar-panel-equipment", "fusion-reactor-equipment",
-	"battery-equipment", "battery-mk2-equipment",
-	"copper-roboport-equipment", "personal-roboport-equipment", "personal-roboport-mk2-equipment",
-	"night-vision-equipment", "belt-immunity-equipment", "exoskeleton-equipment", "personal-laser-defense-equipment",
-	"energy-shield-equipment", "energy-shield-mk2-equipment", "discharge-defense-equipment", "discharge-defense-remote",
-	"arc-turret-equipment", "personal-laser-defense-equipment",
-	"shotgun", "combat-shotgun", "rocket-launcher", "flamethrower",
-	-- "submachine-gun", "machine-gun", "gun", "pistol", -- These don't work and I don't know why. Recipe still produces scrap.
-	"monowheel", "heavy-roller", "heavy-picket", "hydrogen-airship", "helium-airship", "spidertron", "spidertron-remote",
-	"car", "tank",
-	"transfer-plate", "transfer-plate-2x2",
-	"chrome-transmat", "cargo-transmat",
 }
+
+-- Exclude stuff you'll only craft manually, no need to inconvenience the player for these.
+if settings.startup["ProductionScrapForIR3-exclude-annoyances"].value then
+	for _, recipe in pairs({
+		"light-armor", "heavy-armor", "modular-armor", "power-armor", "power-armor-mk2",
+		"iron-burner-generator-equipment", "battery-discharge-equipment", "solar-panel-equipment", "fusion-reactor-equipment",
+		"battery-equipment", "battery-mk2-equipment",
+		"copper-roboport-equipment", "personal-roboport-equipment", "personal-roboport-mk2-equipment",
+		"night-vision-equipment", "belt-immunity-equipment", "exoskeleton-equipment", "personal-laser-defense-equipment",
+		"energy-shield-equipment", "energy-shield-mk2-equipment", "discharge-defense-equipment", "discharge-defense-remote",
+		"arc-turret-equipment", "personal-laser-defense-equipment",
+		"shotgun", -- IR3 uses this ID for the blunderbuss
+		"combat-shotgun", "rocket-launcher", "flamethrower",
+		-- "submachine-gun", "machine-gun", "gun", "pistol", -- These don't work and I don't know why. Recipe still produces scrap.
+		"monowheel", "heavy-roller", "heavy-picket", "hydrogen-airship", "helium-airship", "spidertron", "spidertron-remote",
+		"car", "tank",
+		"transfer-plate", "transfer-plate-2x2",
+		"chrome-transmat", "cargo-transmat",
+	}) do
+		excludeRecipeNames[recipe] = true
+	end
+end
 if not settings.startup["ProductionScrapForIR3-science-produces-scrap"].value then
 	excludeRecipeSubgroups["analysis"] = true
 end
