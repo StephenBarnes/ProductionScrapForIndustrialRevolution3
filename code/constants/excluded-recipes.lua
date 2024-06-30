@@ -35,12 +35,12 @@ if settings.startup["ProductionScrapForIR3-exclude-annoyances"].value then
 		"energy-shield-equipment", "energy-shield-mk2-equipment", "discharge-defense-equipment", "discharge-defense-remote",
 		"arc-turret-equipment", "personal-laser-defense-equipment",
 		"shotgun", -- IR3 uses this ID for the blunderbuss
-		"combat-shotgun", "rocket-launcher", "flamethrower",
-		-- "submachine-gun", "machine-gun", "gun", "pistol", -- These don't work and I don't know why. Recipe still produces scrap.
+		"combat-shotgun", "rocket-launcher", "flamethrower", "pistol",
+		-- "submachine-gun", -- Doesn't work and I don't know why. Recipe still produces scrap.
 		"monowheel", "heavy-roller", "heavy-picket", "hydrogen-airship", "helium-airship", "spidertron", "spidertron-remote",
 		"car", "tank",
 		"transfer-plate", "transfer-plate-2x2",
-		"chrome-transmat", "cargo-transmat",
+		"chrome-transmat", "cargo-transmat", "rocket-silo",
 		"position-beacon", "vehicle-depot", "vehicle-deployer", -- stuff from AAI Programmable Vehicles
 	}) do
 		excludedRecipes.excludeRecipeNames[recipe] = true

@@ -39,5 +39,9 @@ scrapProducingIngredients["gold-cable"] = {
 	["copper-scrap"] = 0.5,
 	["gold-scrap"] = 0.5,
 }
+scrapProducingIngredients["copper-cable-heavy"] = { -- Recipe is called heavy-copper-cable.
+	-- Base IR3 has 1 heavy copper cable <== 8 copper cable + 1 rubber <== 4 copper ingots + 1 rubber.
+	["copper-scrap"] = 4,
+}
 
 return scrapProducingIngredients
