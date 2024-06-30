@@ -78,11 +78,4 @@ data:extend({
         minimum_value = 0,
         order = nextOrder(),
     },
-    {
-        type = "bool-setting",
-        name = "ProductionScrapForIR3-nerf-scrapping-for-analysis-packs",
-        setting_type = "startup",
-        default_value = true,
-        order = nextOrder(),
-    },
 })
