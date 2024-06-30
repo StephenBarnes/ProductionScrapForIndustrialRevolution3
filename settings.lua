@@ -1,5 +1,5 @@
-order = 0
-function nextOrder()
+local order = 0
+local function nextOrder()
     order = order + 1
     return string.format("%03d", order)
 end
@@ -30,6 +30,20 @@ data:extend({
     {
         type = "bool-setting",
         name = "ProductionScrapForIR3-gears-produce-scrap",
+        setting_type = "startup",
+        default_value = true,
+        order = nextOrder(),
+    },
+    {
+        type = "bool-setting",
+        name = "ProductionScrapForIR3-reinforced-plate-ingredients-produce-scrap",
+        setting_type = "startup",
+        default_value = true,
+        order = nextOrder(),
+    },
+    {
+        type = "bool-setting",
+        name = "ProductionScrapForIR3-beam-ingredients-produce-scrap",
         setting_type = "startup",
         default_value = true,
         order = nextOrder(),

@@ -7,9 +7,10 @@ excludedRecipes.excludeRecipeCategories = listToSet{"alloying", "alloying-2", "a
 
 excludedRecipes.excludeRecipeSubgroups = listToSet{
 	"plate", "rod", -- These produce scrap as ingredients, so shouldn't also produce scrap when created.
+	"beam", "plate-heavy", -- These produce scrap as ingredients (if setting is enabled), so shouldn't also produce scrap when created.
 	"cable", -- Includes foils. These produce scrap as ingredients, so shouldn't also produce scrap when created.
 	"ir-trees",
-	"rivet", "plate-heavy", "beam", "pellet", -- These are made from rods/plates/ingots/wood, which would all ordinarily produce scrap. But I just don't like making their recipes produce scrap because it seems unrealistic. These also don't produce scrap as ingredients.
+	"rivet", "pellet", -- These are made from rods/ingots, which would all ordinarily produce scrap. But it's unrealistic for them to produce scrap as ingredients, and we also don't want the recipes producing them to create scrap because that discourages producing them locally.
 }
 
 excludedRecipes.excludeRecipeNames = listToSet{
@@ -18,7 +19,7 @@ excludedRecipes.excludeRecipeNames = listToSet{
 	-- Coating cables shouldn't produce scrap, because we're making them produce scrap when they're ingredients, plus it doesn't make sense.
 	"copper-cable-heavy", "tin-cable", "red-wire", "green-wire",
 	-- Remove electric pole scrap, because it makes sense for it to take 1 beam and not produce wood chips / scrap.
-	"small-electric-pole", "medium-electric-pole", "big-electric-pole", "small-bronze-pole", "small-iron-pole", "big-wooden-pole",
+	"small-electric-pole", "medium-electric-pole", "small-bronze-pole", "small-iron-pole", "big-wooden-pole",
 	"rail", -- No scrap from rail because it doesn't make sense.
 	"wood-chips", -- Crushing wood to produce wood chips shouldn't also produce extra wood chip scrap.
 	"low-density-structure", -- IR3 uses this ID for steel foam.

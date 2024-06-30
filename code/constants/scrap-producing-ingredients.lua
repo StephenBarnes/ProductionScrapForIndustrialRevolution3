@@ -13,6 +13,9 @@ local regularMaterialsToScrap = {
 local regularItemsToScrapAmt = {ingot=1, plate=1, rod=0.5, foil=0.5, cable=0.5}
 	-- Note the 0.5's here to halve the scrap for that item, bc 1 ingot makes 2 rods or 2 foils or 2 cables.
 	-- Not all of these exist, eg there's no tin-foil or gold-rod. So below, we check what exists.
+if settings.startup["ProductionScrapForIR3-reinforced-plate-ingredients-produce-scrap"].value then
+	regularItemsToScrapAmt["plate-heavy"] = 2.5 -- 1 plate-heavy <== 2 plate + 1 rivets <== 2 ingots + 0.5 ingots.
+end
 for material, scrapItem in pairs(regularMaterialsToScrap) do
 	for item, scrapAmt in pairs(regularItemsToScrapAmt) do
 		local materialItem = material .. "-" .. item
@@ -24,7 +27,6 @@ end
 
 -- Add irregular scrap.
 scrapProducingIngredients["glass"] = {["glass-scrap"] = 0.5} -- You can smelt 1x glass fragments to 2x glass, so we halve the scrap.
-scrapProducingIngredients["wood-beam"] = {["wood-chips"] = 1} -- 1 wood = 2 wood beams = 2 wood chips.
 scrapProducingIngredients["wood"] = {["wood-chips"] = 0.5}
 scrapProducingIngredients["iron-stick"] = {["iron-scrap"] = 0.5} -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
 scrapProducingIngredients["tin-cable"] = { -- overwrite to make both tin and copper scrap
@@ -43,5 +45,22 @@ scrapProducingIngredients["copper-cable-heavy"] = { -- Recipe is called heavy-co
 	-- Base IR3 has 1 heavy copper cable <== 8 copper cable + 1 rubber <== 4 copper ingots + 1 rubber.
 	["copper-scrap"] = 4,
 }
+
+if settings.startup["ProductionScrapForIR3-beam-ingredients-produce-scrap"].value then
+	scrapProducingIngredients["wood-beam"] = {["wood-chips"] = 1} -- 1 wood = 2 wood beams = 2 wood chips.
+	scrapProducingIngredients["copper-beam"] = { -- made from 2 copper plates + 1 copper rivets + 1 wood beam.
+		["copper-scrap"] = 2.5,
+		["wood-chips"] = 1,
+	}
+	scrapProducingIngredients["bronze-beam"] = { -- made from 2 bronze plates + 1 bronze rivets + 1 wood beam.
+		["bronze-scrap"] = 2.5,
+		["wood-chips"] = 1,
+	}
+	-- Iron/steel beams made from 2 plates + 1 rivet + 1 ingot <== 2 + 0.5 + 1 ingots.
+	scrapProducingIngredients["iron-beam"] = { ["iron-scrap"] = 3.5 }
+	scrapProducingIngredients["steel-beam"] = { ["steel-scrap"] = 3.5 }
+	-- Chromed beams made from 2 plates + 1 rivet + 2 rods <== 2 + 0.5 + 1 ingots.
+	scrapProducingIngredients["chromium-beam"] = { ["steel-scrap"] = 3.5 }
+end
 
 return scrapProducingIngredients
