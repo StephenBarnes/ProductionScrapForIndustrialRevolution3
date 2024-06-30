@@ -72,7 +72,7 @@ function modifyRecipeSimple(recipe)
 	else -- already have recipe.results, but it might be only 1 item.
 		-- annotate main product of single-result recipes, for the icon
 		if recipe.main_product == nil and #recipe.results == 1 then
-			recipe.main_product = recipe.results[1].name
+			recipe.main_product = recipe.results[1].name or recipe.results[1][1]
 		end
 	end
 	utils.extend(recipe.results, scrapResults)
