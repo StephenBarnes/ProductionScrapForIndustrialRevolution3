@@ -113,6 +113,7 @@ function addScrapToPelletsAndRivetsRecipes()
 				icons = {
 					{icon = DIR.get_icon_path(scrapItem), icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps},
 				},
+				allow_as_intermediate = false, -- Otherwise handcrafting gets "stuck" thinking all rivets must come from scrap.
 			}
 			newRecipe.results = { getOutputFractional(rivetItem, rivetsFromScrap) }
 			if data.raw.item[pelletItem] then
