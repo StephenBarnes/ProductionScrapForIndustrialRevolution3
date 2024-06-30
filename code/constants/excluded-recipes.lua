@@ -41,6 +41,7 @@ if settings.startup["ProductionScrapForIR3-exclude-annoyances"].value then
 		"car", "tank",
 		"transfer-plate", "transfer-plate-2x2",
 		"chrome-transmat", "cargo-transmat",
+		"position-beacon", "vehicle-depot", "vehicle-deployer", -- stuff from AAI Programmable Vehicles
 	}) do
 		excludedRecipes.excludeRecipeNames[recipe] = true
 	end
