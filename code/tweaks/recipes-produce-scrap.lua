@@ -12,7 +12,8 @@ function shouldModifyRecipe(recipe)
 	end
 	if recipe.category and excludedRecipes.excludeRecipeCategories[recipe.category] then return false end
 	if recipe.subgroup and excludedRecipes.excludeRecipeSubgroups[recipe.subgroup] then return false end
-	if excludedRecipes.excludeRecipeNames[recipe.name] then return false end
+	local recipeName = recipe.name or recipe.result -- Some recipes have name nil, but have a result, eg submachine-gun.
+	if excludedRecipes.excludeRecipeNames[recipeName] then return false end
 	return true
 end
 
