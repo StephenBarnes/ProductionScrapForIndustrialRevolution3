@@ -1,13 +1,13 @@
 {
 	"name": "ProductionScrapForIR3",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"title": "Production Scrap for Industrial Revolution 3",
 	"author": "StephenB",
 	"factorio_version": "1.1",
 	"dependencies": 
 	[ "base >= 1.1"
 	, "IndustrialRevolution3 >= 3.1.23"
-	, "? aai-programmable-vehicles >= 0.7.25"
+	, "(?) aai-programmable-vehicles >= 0.7.25"
 	],
 	"description": "Unofficial addon for IR3. Modifies recipes to produce scrap byproducts. Optionally adds new scrap processing recipes for an extra logistical challenge."
 }
