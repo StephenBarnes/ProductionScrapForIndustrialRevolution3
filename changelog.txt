@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+Date: 30. 06. 2024
+  Bugfixes:
+    - Fixed bug causing crash with AAI Programmable Vehicles.
+    - Removed scrap-to-rivets recipe as intermediate when handcrafting, so it uses ingots-to-rivets instead.
+---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 26. 06. 2024
   Features:
