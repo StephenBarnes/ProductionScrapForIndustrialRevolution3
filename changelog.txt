@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.0
+Date: 30. 06. 2024
+  Features:
+    - Added settings to make beams and reinforced plates produce scrap when used as ingredients.
+    - Improved icons for scrap processing recipes.
+    - Changed nanoglass to produce scrap when used as ingredient, rather than when produced.
+    - Heavy copper cable now produces scrap when used as ingredient.
+  Bugfixes:
+    - Fixed bug causing submachine gun and other recipes to ignore scrap exclusion setting.
+    - Removed option to nerf scrapping for analysis packs, because those recipes were removed from IR3.
+---------------------------------------------------------------------------------------------------
 Version: 1.1.1
 Date: 30. 06. 2024
   Bugfixes:
