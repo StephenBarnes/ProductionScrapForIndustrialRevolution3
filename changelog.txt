@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.0
-Date: 25. 06. 2024
+Date: 26. 06. 2024
   Features:
     - Added optional new recipe to convert scrap to rivets and pellets.
     - Added settings to make science packs and gears produce scrap.
