@@ -53,13 +53,13 @@ function addScrapToPelletRecipes()
 				energy_required = DIR.standard_crafting_time, -- Uses constant from IR3's DIR.
 				localised_name = {"recipe-name.scrap-to-pellets", {"item-name."..material.."-scrap"}},
 				icons = {
-					{icon = DIR.get_icon_path(pelletItem), icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps},
+					{icon = data.raw.item[pelletItem].icon, icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps},
 				},
 			}
 			newRecipe.results = {getOutputFractional(pelletItem, pelletsFromScrapWithoutRivets)}
 			-- Use IR3's function to combine icons, so it looks the same as the other recipes' icons.
 			DIR.add_icons_to_recipe(newRecipe,
-				{{icon = DIR.get_icon_path(scrapItem), icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps}}, -1)
+				{{icon = data.raw.item[scrapItem].icon, icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps}}, -1)
 			-- Add properties from the other pellet recipe.
 			local originalPelletRecipe = data.raw.recipe[pelletItem]
 			if originalPelletRecipe then
@@ -96,7 +96,7 @@ function addScrapToPelletsAndRivetsRecipes()
 		local scrapItem = material .. "-scrap"
 		local pelletItem = material .. "-pellet"
 		local rivetItem = material .. "-rivet"
-		if data.raw.item[scrapItem] and data.raw.item[rivetItem] then
+		if data.raw.item[scrapItem] and data.raw.item[rivetItem] and data.raw.item[pelletItem] then
 			local newRecipeName = material.."-scrap-to-pellets-and-rivets"
 			local newRecipe = {
 				type = "recipe",
@@ -108,18 +108,22 @@ function addScrapToPelletsAndRivetsRecipes()
 				ingredients = {{material.."-scrap", 1}},
 				show_amount_in_title = false,
 				always_show_products = true,
-				energy_required = DIR.standard_crafting_time, -- Uses constant from IR3's DIR.
+				energy_required = DIR.standard_crafting_time,
 				localised_name = {"recipe-name.scrap-to-pellets-and-rivets", {"item-name."..material.."-scrap"}},
-				icons = {
-					{icon = DIR.get_icon_path(scrapItem), icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps},
-				},
 				allow_as_intermediate = false, -- Otherwise handcrafting gets "stuck" thinking all rivets must come from scrap.
 			}
-			newRecipe.results = { getOutputFractional(rivetItem, rivetsFromScrap) }
-			if data.raw.item[pelletItem] then
-				table.insert(newRecipe.results, getOutputFractional(pelletItem, pelletsFromScrapWithRivets))
-			end
-			DIR.add_result_icons_to_recipe(newRecipe, false, nil, nil)
+			newRecipe.results = {
+				getOutputFractional(rivetItem, rivetsFromScrap),
+				getOutputFractional(pelletItem, pelletsFromScrapWithRivets),
+			}
+			newRecipe.icons = {
+				-- Empty icon as background layer, because the sub-icons are sized relative to back layer.
+				{icon = "__ProductionScrapForIR3__/graphics/empty_icon.png",
+					icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps, scale = 0.5},
+				{icon = data.raw.item[scrapItem].icon, icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps, scale = 0.4, shift={0,-4}},
+				{icon = data.raw.item[rivetItem].icon, icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps, scale = 0.35, shift={-7,7}},
+				{icon = data.raw.item[pelletItem].icon, icon_size = DIR.icon_size, icon_mipmaps = DIR.icon_mipmaps, scale = 0.35, shift={7,7}},
+			}
 			-- Add properties from the other rivet recipe.
 			local originalRecipe = data.raw.recipe[rivetItem]
 			if originalRecipe then
@@ -137,7 +141,6 @@ function addScrapToPelletsAndRivetsRecipes()
 	end
 	data:extend(newData)
 end
--- TODO de-duplicate some of the code between these two functions.
 
 ------------------------------------------------------------------------
 
