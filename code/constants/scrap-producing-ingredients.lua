@@ -27,6 +27,7 @@ end
 
 -- Add irregular scrap.
 scrapProducingIngredients["glass"] = {["glass-scrap"] = 0.5} -- You can smelt 1x glass fragments to 2x glass, so we halve the scrap.
+scrapProducingIngredients["nanoglass"] = {["glass-scrap"] = 0.5}
 scrapProducingIngredients["wood"] = {["wood-chips"] = 0.5}
 scrapProducingIngredients["iron-stick"] = {["iron-scrap"] = 0.5} -- "stick" is only used for iron-stick (from vanilla), other materials use "rod".
 scrapProducingIngredients["tin-cable"] = { -- overwrite to make both tin and copper scrap

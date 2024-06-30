@@ -23,6 +23,7 @@ excludedRecipes.excludeRecipeNames = listToSet{
 	"rail", -- No scrap from rail because it doesn't make sense.
 	"wood-chips", -- Crushing wood to produce wood chips shouldn't also produce extra wood chip scrap.
 	"low-density-structure", -- IR3 uses this ID for steel foam.
+	"nanoglass", -- Produces scrap as ingredient.
 }
 
 -- Exclude stuff you'll only craft manually, no need to inconvenience the player for these.
