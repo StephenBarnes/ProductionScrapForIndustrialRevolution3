@@ -3,7 +3,14 @@ local excludedRecipes = {}
 local listToSet = require("code.utils").listToSet
 
 -- Some categories of recipes should never produce scrap because it doesn't really make sense.
-excludedRecipes.excludeRecipeCategories = listToSet{"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating", "melting", "stacking"}
+excludedRecipes.excludeRecipeCategories = listToSet{
+	-- IR3:
+	"alloying", "alloying-2", "alloying-3", "blast-alloying", "molten-alloying", "advanced-molten-alloying", "barrelling", "scrapping", "electroplating", "melting",
+	-- IR3 Stacking Beltboxes:
+	"stacking",
+	-- Intermodal Containers:
+	"packing",
+}
 
 excludedRecipes.excludeRecipeSubgroups = listToSet{
 	"plate", "rod", -- These produce scrap as ingredients, so shouldn't also produce scrap when created.
